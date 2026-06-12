@@ -47,10 +47,15 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
+    Sec += 1
+    basic.pause(1000)
+})
+basic.forever(function () {
     if (AlarmInstel == 0 || AlarmInstel == 2) {
         if (input.logoIsPressed()) {
             basic.pause(500)
             AlarmInstel = 1
+            basic.showString("Stel In")
         }
     }
     if (AlarmInstel == 1) {
@@ -79,10 +84,12 @@ basic.forever(function () {
     if (Uur == 60) {
         Uur = 0
     }
-})
-basic.forever(function () {
-    Sec += 1
-    basic.pause(1000)
+    if (AlarmMinuut == 60) {
+        AlarmMinuut = 0
+    }
+    if (AlarmUur == 60) {
+        AlarmUur = 0
+    }
 })
 basic.forever(function () {
     if (AlarmInstel == 0 || AlarmInstel == 2) {
