@@ -3,17 +3,17 @@ let AlarmMinuut = 0
 let Min = 0
 let AlarmUur = 0
 let Uur = 0
-let haloDisplay5: kitronik_halo_hd.ZIPHaloHd = null
-let haloDisplay4: kitronik_halo_hd.ZIPHaloHd = null
-let haloDisplay2: kitronik_halo_hd.ZIPHaloHd = null
-let Sec = 0
 let haloDisplay3: kitronik_halo_hd.ZIPHaloHd = null
 let haloDisplay: kitronik_halo_hd.ZIPHaloHd = null
+let Sec = 0
+let haloDisplay2: kitronik_halo_hd.ZIPHaloHd = null
+let haloDisplay5: kitronik_halo_hd.ZIPHaloHd = null
+let haloDisplay4: kitronik_halo_hd.ZIPHaloHd = null
 input.onButtonPressed(Button.A, function () {
     if (AlarmInstel == 1) {
         AlarmMinuut += 1
     }
-    if (AlarmInstel == 0) {
+    if (AlarmInstel == 0 || AlarmInstel == 2) {
         Min += 1
     }
 })
@@ -21,19 +21,23 @@ input.onButtonPressed(Button.B, function () {
     if (AlarmInstel == 1) {
         AlarmUur += 5
     }
-    if (AlarmInstel == 0) {
+    if (AlarmInstel == 0 || AlarmInstel == 2) {
         Uur += 5
     }
 })
 basic.forever(function () {
-    if (AlarmInstel == 1) {
-        haloDisplay5 = kitronik_halo_hd.createZIPHaloDisplay(60)
-        haloDisplay5.setZipLedColor(AlarmUur, kitronik_halo_hd.colors(ZipLedColors.Yellow))
-        haloDisplay5.show()
-        if (AlarmMinuut != AlarmUur) {
-            haloDisplay4 = kitronik_halo_hd.createZIPHaloDisplay(60)
-            haloDisplay4.setZipLedColor(AlarmMinuut, kitronik_halo_hd.colors(ZipLedColors.Green))
-            haloDisplay4.show()
+    if (AlarmInstel == 0 || AlarmInstel == 2) {
+        haloDisplay3 = kitronik_halo_hd.createZIPHaloDisplay(60)
+        haloDisplay3.setZipLedColor(Uur, kitronik_halo_hd.colors(ZipLedColors.Blue))
+        haloDisplay3.show()
+    }
+})
+basic.forever(function () {
+    if (AlarmInstel == 0 || AlarmInstel == 2) {
+        haloDisplay = kitronik_halo_hd.createZIPHaloDisplay(60)
+        haloDisplay.setZipLedColor(Sec, kitronik_halo_hd.colors(ZipLedColors.Red))
+        if (Sec != Min && Sec != Uur) {
+            haloDisplay.show()
         }
     }
 })
@@ -48,7 +52,7 @@ basic.forever(function () {
 })
 basic.forever(function () {
     Sec += 1
-    basic.pause(1000)
+    basic.pause(999)
 })
 basic.forever(function () {
     if (AlarmInstel == 0 || AlarmInstel == 2) {
@@ -67,8 +71,6 @@ basic.forever(function () {
     if (AlarmInstel == 2) {
         if (AlarmMinuut == Min && AlarmUur == Uur) {
             music.play(music.createSoundExpression(WaveShape.Sine, 5000, 0, 255, 0, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
-            basic.pause(5000)
-            music.stopAllSounds()
         }
     }
 })
@@ -92,18 +94,14 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
-    if (AlarmInstel == 0 || AlarmInstel == 2) {
-        haloDisplay3 = kitronik_halo_hd.createZIPHaloDisplay(60)
-        haloDisplay3.setZipLedColor(Uur, kitronik_halo_hd.colors(ZipLedColors.Blue))
-        haloDisplay3.show()
-    }
-})
-basic.forever(function () {
-    if (AlarmInstel == 0 || AlarmInstel == 2) {
-        haloDisplay = kitronik_halo_hd.createZIPHaloDisplay(60)
-        haloDisplay.setZipLedColor(Sec, kitronik_halo_hd.colors(ZipLedColors.Red))
-        if (Sec != Min && Sec != Uur) {
-            haloDisplay.show()
+    if (AlarmInstel == 1) {
+        haloDisplay5 = kitronik_halo_hd.createZIPHaloDisplay(60)
+        haloDisplay5.setZipLedColor(AlarmUur, kitronik_halo_hd.colors(ZipLedColors.Blue))
+        haloDisplay5.show()
+        if (AlarmMinuut != AlarmUur) {
+            haloDisplay4 = kitronik_halo_hd.createZIPHaloDisplay(60)
+            haloDisplay4.setZipLedColor(AlarmMinuut, kitronik_halo_hd.colors(ZipLedColors.Green))
+            haloDisplay4.show()
         }
     }
 })
